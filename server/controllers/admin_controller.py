@@ -86,13 +86,14 @@ def setstatus():
     return Response('', 201)
 
 
-@blueprint.route('/count', methods=['GET'])
+@blueprint.route('/count', methods=['POST'])
 def count():
+    class_num = request.json['class_num']
     date = datetime.now().strftime("%Y.%m.%d")
     att = AttendanceModel.objects(date=date)
     if not att:
-        AttendanceModel(class_num=)
-        return Response('찾으시는 데이터가 없습니다.', 404)
+        att = AttendanceModel(class_num=class_num, date=date).save()
+        return jsonify(attend=0, absent=len(att.status))
     else:
         att = att[0]
         status = att.status
