@@ -1,9 +1,6 @@
 import random
 from flask import Blueprint, request, Response, jsonify
-from flask_jwt_extended import (
-    create_access_token, create_refresh_token,
-    jwt_required, get_jwt_identity
-)
+from flask_jwt_extended import create_access_token
 from server.models.admin_model import AdminModel
 from server.models.attendance_model import AttendanceModel
 from server.models.student_model import StudentModel
@@ -11,6 +8,8 @@ from datetime import datetime
 
 blueprint = Blueprint('admin', 'admin', url_prefix='/admin')
 now_code = ''.join([chr(97 + i) for i in [random.randrange(0, 25) for i in range(10)]])
+
+logined = dict()
 
 
 @blueprint.route('/login', methods=['POST'])
@@ -23,30 +22,30 @@ def login():
     if not admin:
         return Response('', 404)
 
+    token = create_access_token(identity=id)
+    logined[token] = admin
     return jsonify({
-        'access_token': create_access_token(identity=id),
-        'refresh_token': create_refresh_token(identity=id)
+        'access_token': token
     }), 200
 
 
-@blueprint.route('/info', methods=['GET'])
-@jwt_required
+@blueprint.route('/info', methods=['POST'])
 def info():
-    id = get_jwt_identity()
-    admin = AdminModel.objects(uid=id).first()
+    token = request.json['jwt']
+    admin = logined[token]
+    if not admin:
+        return Response('', 404)
     return (jsonify({
         'name': admin.name,
         'id': admin.uid,
-        'pw': admin.pw,
-        'class': admin.class_num
+        'class_num': admin.class_num
     }), 200)
 
 
-@blueprint.route('/attendance', methods=['GET'])
-@jwt_required
-def attendance():
-    id = get_jwt_identity()
-    admin = AdminModel.objects(uid=id).first()
+@blueprint.route('/table', methods=['POST'])
+def table():
+    token = request.json['jwt']
+    admin = logined[token]
     class_num = admin.class_num
     date = datetime.now().strftime("%Y.%m.%d")
     att = AttendanceModel.objects(class_num=class_num, date=date)
@@ -63,11 +62,10 @@ def attendance():
 
 
 @blueprint.route('/setstatus', methods=['POST'])
-@jwt_required
 def setstatus():
     json = request.json
-    id = get_jwt_identity()
-    admin = AdminModel.objects(uid=id).first()
+    token = json['jwt']
+    admin = logined[token]
 
     date = json['date']
     student_num = json['student_num']
