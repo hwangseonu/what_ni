@@ -91,7 +91,8 @@ def count():
     date = datetime.now().strftime("%Y.%m.%d")
     att = AttendanceModel.objects(date=date)
     if not att:
-        return Response('', 404)
+        AttendanceModel(class_num=)
+        return Response('찾으시는 데이터가 없습니다.', 404)
     else:
         att = att[0]
         status = att.status

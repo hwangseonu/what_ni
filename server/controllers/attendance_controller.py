@@ -44,9 +44,10 @@ def check():
         table[num] = status
         attendance.update(set__status=table)
     else:
-        AttendanceModel(class_num=class_num, date=date, status={
-            num: status
-        }).save()
+        att = AttendanceModel(class_num=class_num, date=date).save()
+        st = att.status
+        st[num] = status
+        att.update(set__stauts=st)
     return Response('', 201)
 
 
