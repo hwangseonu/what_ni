@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 from mongoengine import connect
 from server.controllers import init_controllers
 
@@ -15,4 +16,5 @@ def create_app():
     init_controllers(app)
     app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
     jwt = JWTManager(app)
+    cors = CORS(app)
     return app
