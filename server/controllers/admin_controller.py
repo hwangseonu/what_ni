@@ -57,7 +57,7 @@ def attendance():
     table = dict()
     att = att[0]
     for i in range(5):
-        student = StudentModel.objects(uuid=str(12346 - i)).first()
+        student = StudentModel.objects(uuid=str(12344 + i)).first()
         key = student.student_id + ' ' + student.name
         table[key] = [1, 1, att.status[student.student_id[3:]]]
 

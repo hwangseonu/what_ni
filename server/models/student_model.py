@@ -22,6 +22,6 @@ class StudentModel(Document):
         required=True
     )
 
-    profile_image = FileField(
+    profile_image = StringField(
         required=True
     )
