@@ -54,5 +54,5 @@ def attendance():
     return jsonify({
         'class': class_num,
         'date': date,
-        'table': att.status
+        'table': att[0].status
     }), 200

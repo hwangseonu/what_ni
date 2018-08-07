@@ -6,7 +6,7 @@ from datetime import datetime
 blueprint = Blueprint('attendance', 'attendance', url_prefix='/attendance')
 
 
-@blueprint.route('/status/', methods=['POST'])
+@blueprint.route('/status', methods=['POST'])
 def status():
     uuid = request.json['uuid']
     date = datetime.now().strftime('%Y.%m.%d')
