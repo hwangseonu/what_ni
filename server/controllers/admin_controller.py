@@ -59,6 +59,7 @@ def table():
         student = StudentModel.objects(uuid=str(12344 + i)).first()
         key = student.student_id + ' ' + student.name
         table[key] = [1, 1, att.status[student.student_id[3:]]]
+        return jsonify(table), 200
 
 
 @blueprint.route('/setstatus', methods=['POST'])
