@@ -21,3 +21,7 @@ class StudentModel(Document):
     birth = StringField(
         required=True
     )
+
+    profile_image = FileField(
+        required=True
+    )

@@ -12,5 +12,6 @@ def info():
         'student_id': student.student_id,
         'name': student.name,
         'birth': student.birth,
-        'uuid': student.uuid
+        'uuid': student.uuid,
+        'profile_image': student.profile_image
     }), 200) if student else Response('', 404)

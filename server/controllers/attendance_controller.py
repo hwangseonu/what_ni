@@ -1,4 +1,5 @@
 from flask import Blueprint, request, Response, jsonify
+from server.controllers.admin_controller import now_code
 from server.models.student_model import StudentModel
 from server.models.attendance_model import AttendanceModel
 from datetime import datetime
@@ -22,6 +23,11 @@ def status():
 def check():
     uuid = request.json['uuid']
     status = request.json['status']
+    code = request.json['code']
+
+    if code != now_code:
+        return Response('Not Match QR Code', 400)
+
     student = StudentModel.objects(uuid=uuid).first()
     date = datetime.now().strftime('%Y.%m.%d')
     if student:
@@ -41,4 +47,27 @@ def check():
         AttendanceModel(class_num=class_num, date=date, status={
             num: status
         }).save()
+    return Response('', 201)
+
+
+@blueprint.route('/reason', methods=['POST'])
+def reason():
+    json = request.json
+    uuid = json['uuid']
+    student = StudentModel.objects(uuid=uuid).first()
+    if not student:
+        return Response('Not Found UUID', 404)
+    r = json['reason']
+    date = datetime.now().strftime('%Y.%m.%d')
+    class_num = student.student_id[:3]
+    num = student.student_id[3:]
+    att = AttendanceModel.objects(class_num=class_num)
+    if not att:
+        att = AttendanceModel(class_num=class_num, date=date, status={num: 1}, reason={num: r}).save()
+    else:
+        stat = att[0].status
+        reas = att[0].reason
+        stat[num] = 1
+        reas[num] = r
+        att[0].update(set__status=stat, set__reason=reas)
     return Response('', 201)

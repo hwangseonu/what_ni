@@ -1,4 +1,5 @@
 from mongoengine import *
+from server.models.student_model import StudentModel
 
 
 class AttendanceModel(Document):
@@ -10,4 +11,6 @@ class AttendanceModel(Document):
 
     date = StringField(required=True)
 
-    status = MapField(IntField(), required=True)
+    status = MapField(IntField(), required=True, default={s.student_id[3:]: 1 for s in StudentModel.objects()})
+
+    reason = MapField(StringField(), required=False)
