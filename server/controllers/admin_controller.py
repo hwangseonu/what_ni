@@ -86,6 +86,25 @@ def setstatus():
     return Response('', 201)
 
 
+@blueprint.route('/count', methods=['GET'])
+def count():
+    date = datetime.now().strftime("%Y.%m.%d")
+    att = AttendanceModel.objects(date=date)
+    if not att:
+        return Response('', 404)
+    else:
+        att = att[0]
+        status = att.status
+        attend, absent = 0, 0
+
+        for k, i in status.itmes():
+            if i == 0:
+                attend += 1
+            else:
+                absent += 1
+        return jsonify(attend=attend, absent=absent), 200
+
+
 @blueprint.route('/makecode', methods=['GET'])
 def makecode():
     global now_code
