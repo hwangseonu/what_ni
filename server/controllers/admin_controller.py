@@ -56,7 +56,7 @@ def table():
     table = dict()
     att = att[0]
     for i in range(5):
-        student = StudentModel.objects(uuid=str(12344 + i)).first()
+        student = StudentModel.objects(uuid=str(12345 + i)).first()
         key = student.student_id + ' ' + student.name
         table[key] = [1, 1, att.status[student.student_id[3:]]]
         return jsonify(table), 200
@@ -89,7 +89,8 @@ def setstatus():
 
 @blueprint.route('/count', methods=['POST'])
 def count():
-    class_num = request.json['class_num']
+    admin = logined[request.json['jwt']]
+    class_num = admin.class_num
     date = datetime.now().strftime("%Y.%m.%d")
     att = AttendanceModel.objects(date=date)
     if not att:
