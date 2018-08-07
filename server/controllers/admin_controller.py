@@ -101,7 +101,7 @@ def count():
         status = att.status
         attend, absent = 0, 0
 
-        for k, i in status.itmes():
+        for k, i in status.items():
             if i == 0:
                 attend += 1
             else:
