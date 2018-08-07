@@ -21,7 +21,3 @@ class StudentModel(Document):
     birth = StringField(
         required=True
     )
-
-
-def get_student_by_uuid(uuid):
-    return StudentModel.objects(uuid=uuid).first()

@@ -1,18 +1,19 @@
 from flask import Blueprint, request, Response, jsonify
-from server.models.student_model import get_student_by_uuid
-from server.models.attendance_model import get_attendance_by_class_and_date, AttendanceModel
+from server.models.student_model import StudentModel
+from server.models.attendance_model import AttendanceModel
 from datetime import datetime
 
 blueprint = Blueprint('attendance', 'attendance', url_prefix='/attendance')
 
 
 @blueprint.route('/status/', methods=['POST'])
-def status(uuid):
+def status():
     uuid = request.json['uuid']
-    student_id = get_student_by_uuid(uuid).student_id
+    date = datetime.now().strftime('%Y.%m.%d')
+    student_id = StudentModel.objects(uuid=uuid).first().student_id
     class_num = student_id[:3]
     num = student_id[3:]
-    attendance = get_attendance_by_class_and_date(class_num)
+    attendance = AttendanceModel.objects(class_num=class_num, date=date).first()
     stat = attendance.status[num]
     return Response(str(stat), 200) if status else Response('', 404)
 
@@ -21,8 +22,8 @@ def status(uuid):
 def check():
     uuid = request.json['uuid']
     status = request.json['status']
-    student = get_student_by_uuid(uuid)
-
+    student = StudentModel.objects(uuid=uuid).first()
+    date = datetime.now().strftime('%Y.%m.%d')
     if student:
         student_id = student.student_id
     else:
@@ -30,14 +31,14 @@ def check():
 
     class_num = student_id[:3]
     num = student_id[3:]
-    attendance = get_attendance_by_class_and_date(class_num, datetime.now().strftime('%Y.%m.%d'))
+    attendance = AttendanceModel.objects(class_num=class_num, date=date).first()
 
     if attendance:
         table = attendance.status
         table[num] = status
         attendance.update(set__status=table)
     else:
-        AttendanceModel(class_num=class_num, date=datetime.now().strftime('%Y.%m.%d'), status={
+        AttendanceModel(class_num=class_num, date=date, status={
             num: status
         }).save()
     return Response('', 201)
