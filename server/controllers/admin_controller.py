@@ -93,7 +93,7 @@ def count():
     att = AttendanceModel.objects(date=date)
     if not att:
         att = AttendanceModel(class_num=class_num, date=date).save()
-        return jsonify(attend=0, absent=len(att.status))
+        return jsonify(attend=0, absent=len(att[0].status))
     else:
         att = att[0]
         status = att.status
