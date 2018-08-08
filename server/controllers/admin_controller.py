@@ -113,7 +113,7 @@ def count():
 def makecode():
     global now_code
     now_code = ''.join([chr(97 + i) for i in [random.randrange(0, 25) for i in range(10)]])
-    return Response(now_code, 201)
+    return Response('', 201)
 
 
 @blueprint.route('/getcode', methods=['GET'])
