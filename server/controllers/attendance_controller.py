@@ -26,7 +26,8 @@ def check():
     code = request.json['code']
 
     if code != now_code:
-        return Response('Not Match QR Code', 400)
+        print(code, now_code)
+        return Response('Not Match Code', 400)
 
     student = StudentModel.objects(uuid=uuid).first()
     date = datetime.now().strftime('%Y.%m.%d')
