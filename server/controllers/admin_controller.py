@@ -51,12 +51,14 @@ def table():
     if not att:
         return Response('', 404)
 
-    table = list()
+    table = dict()
     att = att[0]
-    for student in StudentModel.objects():
-        key = student.student_id + ' ' + student.name
-        table.append({key: [1, 1, att.status[student.student_id[3:]]]})
-        return jsonify(table), 200
+    for k, i in att.status.items():
+        student_id = class_num+k
+        student = StudentModel.objects(student_id=student_id)[0]
+        key = student_id + ' ' + student.name
+        table[key] = [1, 1, att.status[k]]
+    return jsonify(table), 200
 
 
 @blueprint.route('/setstatus', methods=['POST'])
