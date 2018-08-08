@@ -51,13 +51,17 @@ def table():
     if not att:
         return Response('', 404)
 
-    table = dict()
+    table = list()
     att = att[0]
+
     for k, i in att.status.items():
         student_id = class_num+k
         student = StudentModel.objects(student_id=student_id)[0]
         key = student_id + ' ' + student.name
-        table[key] = [1, 1, att.status[k]]
+        table.append({
+            "name": key,
+            "array": [1, 1, att.status[k]]
+        })
     return jsonify(table), 200
 
 
