@@ -55,7 +55,7 @@ def table():
     att = att[0]
     for student in StudentModel.objects():
         key = student.student_id + ' ' + student.name
-        table.append({key: [1, 1, att.status[student.student_id[3:]]})
+        table.append({key: [1, 1, att.status[student.student_id[3:]]]})
         return jsonify(table), 200
 
 
