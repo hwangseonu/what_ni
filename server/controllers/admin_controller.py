@@ -7,8 +7,6 @@ from server.models.student_model import StudentModel
 from datetime import datetime
 
 blueprint = Blueprint('admin', 'admin', url_prefix='/admin')
-now_code = ''.join([chr(97 + i) for i in [random.randrange(0, 25) for i in range(10)]])
-
 logined = dict()
 
 
@@ -113,9 +111,15 @@ def count():
 def makecode():
     global now_code
     now_code = ''.join([chr(97 + i) for i in [random.randrange(0, 25) for i in range(10)]])
-    return Response('', 201)
+    return Response(now_code, 201)
 
 
 @blueprint.route('/getcode', methods=['GET'])
 def getcode():
+    global now_code
     return Response(now_code, 200)
+
+
+def get_now_code():
+    global now_code
+    return now_code

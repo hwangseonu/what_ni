@@ -1,5 +1,5 @@
 from flask import Blueprint, request, Response, jsonify
-from server.controllers.admin_controller import now_code
+from server.controllers.admin_controller import get_now_code
 from server.models.student_model import StudentModel
 from server.models.attendance_model import AttendanceModel
 from datetime import datetime
@@ -25,8 +25,8 @@ def check():
     status = request.json['status']
     code = request.json['code']
 
-    if code != now_code:
-        print(code, now_code)
+    if code != get_now_code():
+        print(code, get_now_code())
         return Response('Not Match Code', 400)
 
     student = StudentModel.objects(uuid=uuid).first()
