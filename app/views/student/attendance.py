@@ -12,7 +12,17 @@ class StudentAttendance(Resource):
         attendance = Attendance.objects(student=account, code=code).first()
 
         if attendance:
-            return {}, 409
+            return {
+                       "student": {
+                           "username": account.username,
+                           "name": account.name,
+                           "studentId": account.student_id,
+                           "birth": account.birth,
+                           "profileImage": account.profile_image
+                       },
+                       "code": attendance.code,
+                       "attendance_date": attendance.attendance_date
+                   }, 409
 
         attendance = Attendance(student=account, code=code).save()
 
