@@ -1,9 +1,5 @@
 from flask import Flask
-
-
-def register_views(flask_app: Flask):
-    from app.views import route
-    route(flask_app)
+from app.views import register_views
 
 
 def create_app():

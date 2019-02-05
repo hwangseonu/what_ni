@@ -2,7 +2,7 @@ from flask import Flask, Blueprint
 from flask_restful import Api
 
 
-def route(flask_app: Flask):
+def register_views(flask_app: Flask):
     handle_exception_func = flask_app.handle_exception
     handle_user_exception_func = flask_app.handle_user_exception
 
