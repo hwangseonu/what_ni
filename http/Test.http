@@ -1,3 +1,13 @@
-POST http://localhost:5000/api/attendance/111
+POST http://localhost:5000/api/student
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test1234",
+  "name": "테스트",
+  "studentId": "10101",
+  "birth": "2019-02-05 21:42:09.852335",
+  "profileImage": "Aaa"
+}
 
 ###

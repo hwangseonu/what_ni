@@ -1,12 +1,13 @@
 from flask import g
 from flask_restful import Resource
 
+from app.models.account import StudentModel
 from app.models.attendance import Attendance
 from app.decorators.auth_required import auth_required
 
 
 class StudentAttendance(Resource):
-    @auth_required('student')
+    @auth_required(StudentModel)
     def post(self, code):
         account = g.user
         attendance = Attendance.objects(student=account, code=code).first()
@@ -38,7 +39,7 @@ class StudentAttendance(Resource):
                    "attendance_date": attendance.attendance_date
                }, 200
 
-    @auth_required
+    @auth_required(StudentModel)
     def get(self, code):
         account = g.user
         attendance = Attendance.objects(student=account, code=code).first()

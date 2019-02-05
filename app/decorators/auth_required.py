@@ -1,32 +1,29 @@
 from functools import wraps
+from uuid import UUID
 
 from flask import abort, g
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from app.models.account import StudentModel, AdminModel
+from app.models.token import AccessTokenModel
 
 
-def auth_required(account_type):
+def auth_required(model):
     def decorator(fn):
         @wraps(fn)
         @jwt_required
         def wrapper(*args, **kwargs):
             try:
-                username = get_jwt_identity()
-                if account_type == "student":
-                    account = StudentModel.objects(username=username).first()
-                    if not account:
-                        abort(404)
-                    g.user = account
-                elif account_type == "admin":
-                    account = AdminModel.objects(username=username)
-                    if not account:
-                        abort(404)
-                    g.user = account
+                token = AccessTokenModel.objects(identity=UUID(get_jwt_identity())).first()
+
+                if token and isinstance(token.key.owner, model):
+                    g.user = token.key.owner
                 else:
-                    abort(401)
+                    abort(403)
+
                 return fn(*args, **kwargs)
             except ValueError:
                 abort(422)
+
         return wrapper
+
     return decorator

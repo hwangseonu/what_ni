@@ -33,7 +33,7 @@ class AdminAccount(Resource):
             return {'access': create_access_token(payload['username']),
                     'refresh': create_refresh_token(payload['username'])}, 201
 
-    @auth_required("admin")
+    @auth_required(AdminModel)
     def get(self):
         account = g.user
         return {

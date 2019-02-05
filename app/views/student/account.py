@@ -1,8 +1,8 @@
 from flask import request, g
 from flask_restful import Resource
-from flask_jwt_extended import create_access_token, create_refresh_token
 from mongoengine import Q
 
+from app.models.token import AccessTokenModel, RefreshTokenModel
 from app.models.account import StudentModel
 from app.decorators.json_validator import json_validate
 from app.decorators.auth_required import auth_required
@@ -27,22 +27,22 @@ class StudentAccount(Resource):
         if StudentModel.objects.filter(Q(username=payload['username']) or Q(student_id=payload['studentId'])).first():
             return {}, 409
         else:
-            StudentModel(username=payload['username'],
-                         password=payload['password'],
-                         name=payload['name'],
-                         student_id=payload['studentId'],
-                         birth=payload['birth'],
-                         profile_image=payload['profileImage']).save()
-            return {'access': create_access_token(payload['username']),
-                    'refresh': create_refresh_token(payload['username'])}, 201
+            student = StudentModel(username=payload['username'],
+                                   password=payload['password'],
+                                   name=payload['name'],
+                                   student_id=payload['studentId'],
+                                   birth=payload['birth'],
+                                   profile_image=payload['profileImage']).save()
+            return {'access': AccessTokenModel.create_access_token(student),
+                    'refresh': RefreshTokenModel.create_refresh_token(student)}, 201
 
-    @auth_required("student")
+    @auth_required(StudentModel)
     def get(self):
         account = g.user
         return {
-            "username": account.username,
-            "name": account.name,
-            "studentId": account.student_id,
-            "birth": account.birth,
-            "profileImage": account.profile_image
-        }, 200
+                   "username": account.username,
+                   "name": account.name,
+                   "studentId": account.student_id,
+                   "birth": account.birth,
+                   "profileImage": account.profile_image
+               }, 200
