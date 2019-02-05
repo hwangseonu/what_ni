@@ -6,10 +6,10 @@ from flask_jwt_extended import jwt_refresh_token_required, get_jwt_identity
 
 from app.models.token import AccessTokenModel, RefreshTokenModel
 from app.decorators.json_validator import json_validate
-from app.models.account import StudentModel
+from app.models.account import AdminModel
 
 
-class StudentAuth(Resource):
+class AdminAuth(Resource):
     @json_validate({
         'type': 'object',
         'required': ['username', 'password'],
@@ -21,7 +21,7 @@ class StudentAuth(Resource):
     def post(self):
         payload = request.json
 
-        account = StudentModel.objects(username=payload['username']).first()
+        account = AdminModel.objects(username=payload['username']).first()
 
         if not account:
             return {}, 404
@@ -32,7 +32,7 @@ class StudentAuth(Resource):
                 'refresh': RefreshTokenModel.create_refresh_token(account)}, 200
 
 
-class StudentRefresh(Resource):
+class AdminRefresh(Resource):
     @jwt_refresh_token_required
     def get(self):
         token = RefreshTokenModel.objects(identity=UUID(get_jwt_identity())).first()

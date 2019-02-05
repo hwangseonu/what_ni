@@ -11,14 +11,17 @@ def register_views(flask_app: Flask):
 
     from app.views.student.account import StudentAccount
     api.add_resource(StudentAccount, '/student')
-    from app.views.student.auth import Auth, Refresh
-    api.add_resource(Auth, '/student/auth')
-    api.add_resource(Refresh, '/student/auth/refresh')
+    from app.views.student.auth import StudentAuth, StudentRefresh
+    api.add_resource(StudentAuth, '/student/auth')
+    api.add_resource(StudentRefresh, '/student/auth/refresh')
     from app.views.student.attendance import StudentAttendance
     api.add_resource(StudentAttendance, '/attendance/<code>')
 
     from app.views.admin.account import AdminAccount
     api.add_resource(AdminAccount, '/admin')
+    from app.views.admin.auth import AdminAuth, AdminRefresh
+    api.add_resource(AdminAuth, '/admin/auth')
+    api.add_resource(AdminRefresh, '/admin/auth/refresh')
 
     flask_app.register_blueprint(api_blueprint)
     flask_app.handle_exception = handle_exception_func

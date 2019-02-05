@@ -1,0 +1,13 @@
+POST http://localhost:5000/api/student
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test1234",
+  "name": "테스트",
+  "studentId": "10101",
+  "birth": "2002-04-15",
+  "profileImage": "aa"
+}
+
+###
