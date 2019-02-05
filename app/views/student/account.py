@@ -33,7 +33,7 @@ class StudentAccount(Resource):
                                    password=payload['password'],
                                    name=payload['name'],
                                    student_id=payload['studentId'],
-                                   birth=datetime.strptime(payload['birth'], "%Y-%M-%d").date(),
+                                   birth=datetime.strptime(payload['birth'], "%Y-%m-%d").date(),
                                    profile_image=payload['profileImage']).save()
             return {'access': AccessTokenModel.create_access_token(student),
                     'refresh': RefreshTokenModel.create_refresh_token(student)}, 201
