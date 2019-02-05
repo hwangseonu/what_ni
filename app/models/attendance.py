@@ -17,6 +17,4 @@ class Attendance(Document):
         primary_key=True
     )
 
-    code = StringField(
-        required=True
-    )
+    code = UUIDField(required=True)
