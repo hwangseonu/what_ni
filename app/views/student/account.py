@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import request, g
 from flask_restful import Resource
 from mongoengine import Q
@@ -31,7 +33,7 @@ class StudentAccount(Resource):
                                    password=payload['password'],
                                    name=payload['name'],
                                    student_id=payload['studentId'],
-                                   birth=payload['birth'],
+                                   birth=datetime.strptime(payload['birth'], "%Y-%M-%d").date(),
                                    profile_image=payload['profileImage']).save()
             return {'access': AccessTokenModel.create_access_token(student),
                     'refresh': RefreshTokenModel.create_refresh_token(student)}, 201
@@ -43,6 +45,6 @@ class StudentAccount(Resource):
                    "username": account.username,
                    "name": account.name,
                    "studentId": account.student_id,
-                   "birth": account.birth,
+                   "birth": str(account.birth),
                    "profileImage": account.profile_image
                }, 200

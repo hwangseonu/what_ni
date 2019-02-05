@@ -16,7 +16,7 @@ class StudentModel(AccountBase):
         'collection': 'account_student'
     }
     student_id = StringField(unique=True, required=True)
-    birth = StringField(required=True)
+    birth = DateField(required=True)
     profile_image = StringField(required=True)
 
 
