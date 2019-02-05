@@ -1,7 +1,7 @@
 from flask import Flask
-from app.views import register_views
-
+from flask_jwt_extended import JWTManager
 from mongoengine import connect
+from app.views import register_views
 
 
 def create_app(*config_cls):
@@ -11,6 +11,8 @@ def create_app(*config_cls):
     for config in config_cls:
         flask_app.config.from_object(config)
 
-    connect(flask_app.config['MONGODB_SETTINGS'])
+    connect(**flask_app.config['MONGODB_SETTINGS'])
+
+    JWTManager().init_app(flask_app)
 
     return flask_app

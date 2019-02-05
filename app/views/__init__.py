@@ -9,7 +9,7 @@ def register_views(flask_app: Flask):
     api_blueprint = Blueprint('api_v1', __name__, url_prefix='/api')
     api = Api(api_blueprint)
 
-    from app.views.users.users import User
+    from app.views.users.user import User
     api.add_resource(User, '/users')
 
     flask_app.register_blueprint(api_blueprint)

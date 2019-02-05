@@ -15,12 +15,14 @@ class StudentModel(AccountBase):
     meta = {
         'collection': 'account_student'
     }
-    student_id = StringField(required=True)
-    name = StringField(required=True)
+    student_id = StringField(unique=True, required=True)
     birth = StringField(required=True)
     profile_image = StringField(required=True)
 
 
 class AdminModel(AccountBase):
+    meta = {
+        'collection': 'account_admin'
+    }
     name = StringField(required=True)
     class_id = StringField(required=True)
