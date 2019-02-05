@@ -2,7 +2,8 @@ from datetime import datetime
 
 from flask import request, g
 from flask_restful import Resource
-from mongoengine import Q
+
+from mongoengine import Q, NotUniqueError
 
 from app.models.token import AccessTokenModel, RefreshTokenModel
 from app.models.account import StudentModel
@@ -29,14 +30,17 @@ class StudentAccount(Resource):
         if StudentModel.objects.filter(Q(username=payload['username']) or Q(student_id=payload['studentId'])).first():
             return {}, 409
         else:
-            student = StudentModel(username=payload['username'],
-                                   password=payload['password'],
-                                   name=payload['name'],
-                                   student_id=payload['studentId'],
-                                   birth=datetime.strptime(payload['birth'], "%Y-%m-%d").date(),
-                                   profile_image=payload['profileImage']).save()
-            return {'access': AccessTokenModel.create_access_token(student),
-                    'refresh': RefreshTokenModel.create_refresh_token(student)}, 201
+            try:
+                student = StudentModel(username=payload['username'],
+                                       password=payload['password'],
+                                       name=payload['name'],
+                                       student_id=payload['studentId'],
+                                       birth=datetime.strptime(payload['birth'], "%Y-%m-%d").date(),
+                                       profile_image=payload['profileImage']).save()
+                return {'access': AccessTokenModel.create_access_token(student),
+                        'refresh': RefreshTokenModel.create_refresh_token(student)}, 201
+            except NotUniqueError:
+                return {}, 409
 
     @auth_required(StudentModel)
     def get(self):

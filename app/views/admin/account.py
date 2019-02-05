@@ -1,7 +1,7 @@
 from flask import request, g
 from flask_restful import Resource
 
-from mongoengine import Q
+from mongoengine import Q, NotUniqueError
 
 from app.models.token import AccessTokenModel, RefreshTokenModel
 from app.models.account import AdminModel
@@ -26,12 +26,15 @@ class AdminAccount(Resource):
         if AdminModel.objects.filter(Q(username=payload['username']) or Q(admin_id=payload['adminId'])).first():
             return {}, 409
         else:
-            account = AdminModel(username=payload['username'],
-                                 password=payload['password'],
-                                 name=payload['name'],
-                                 admin_id=payload['adminId']).save()
-            return {'access': AccessTokenModel.create_access_token(account),
-                    'refresh': RefreshTokenModel.create_refresh_token(account)}, 201
+            try:
+                account = AdminModel(username=payload['username'],
+                                     password=payload['password'],
+                                     name=payload['name'],
+                                     admin_id=payload['adminId']).save()
+                return {'access': AccessTokenModel.create_access_token(account),
+                        'refresh': RefreshTokenModel.create_refresh_token(account)}, 201
+            except NotUniqueError:
+                return {}, 409
 
     @auth_required(AdminModel)
     def get(self):
