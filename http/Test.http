@@ -1,13 +1,12 @@
-POST http://localhost:5000/api/student
-Content-Type: application/json
-
-{
-  "username": "test",
-  "password": "test1234",
-  "name": "테스트",
-  "studentId": "10101",
-  "birth": "2019-02-05 21:42:09.852335",
-  "profileImage": "Aaa"
+GET http://localhost:5000/api/admin
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDkzNzE0NzQsIm5iZiI6MTU0OTM3MTQ3NCwianRpIjoiMzdlODg1YmYtMDAzNy00NjU2LWFhMWItMTE4OTlkZGYwMDRhIiwiZXhwIjoxNTQ5MzcyMzc0LCJpZGVudGl0eSI6ImRhODEyMTNlLTFmZGYtNGVhNi1hZDZlLWFiYWEwNWExZDk4NiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.RT3xKxHpQpX74OrYE5RAo7D8ygBUieJP7omiknndurw
+#Content-Type: application/json
+#
+#{
+#  "username": "test",
+#  "password": "test1234",
+#  "name": "테스트",
+#  "adminId": "10101"
 }
 
 ###
