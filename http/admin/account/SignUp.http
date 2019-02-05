@@ -2,7 +2,7 @@ POST http://localhost:5000/api/admin
 Content-Type: application/json
 
 {
-  "username": "test",
+  "username": "test1d",
   "password": "test1234",
   "name": "테스트",
   "adminId": "10101"

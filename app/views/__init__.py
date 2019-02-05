@@ -24,6 +24,8 @@ def register_views(flask_app: Flask):
     api.add_resource(AdminRefresh, '/admin/auth/refresh')
     from app.views.admin.attendance import Code
     api.add_resource(Code, '/admin/code')
+    from app.views.admin.attendance import AdminAttendance
+    api.add_resource(AdminAttendance, "/admin/attendance/<code>")
 
     flask_app.register_blueprint(api_blueprint)
     flask_app.handle_exception = handle_exception_func

@@ -1,4 +1,5 @@
 from datetime import datetime
+from uuid import UUID
 
 from flask import request, g
 from flask_restful import Resource
@@ -35,3 +36,12 @@ class Code(Resource):
         return {
             'code': str(code.identity)
         }, 201
+
+
+class AdminAttendance(Resource):
+    @auth_required(AdminModel)
+    def get(self, code):
+        cls = CodeModel.objects(identity=UUID(code)).first()
+        if cls.admin != g.user:
+            return {}, 403
+        return {}, 200
