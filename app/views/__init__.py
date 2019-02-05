@@ -9,8 +9,8 @@ def register_views(flask_app: Flask):
     api_blueprint = Blueprint('api_v1', __name__, url_prefix='/api')
     api = Api(api_blueprint)
 
-    from app.views.student.account import Account
-    api.add_resource(Account, '/student')
+    from app.views.student.account import StudentAccount
+    api.add_resource(StudentAccount, '/student')
     from app.views.student.auth import Auth, Refresh
     api.add_resource(Auth, '/student/auth')
     api.add_resource(Refresh, '/student/auth/refresh')

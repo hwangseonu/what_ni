@@ -24,5 +24,4 @@ class AdminModel(AccountBase):
     meta = {
         'collection': 'account_admin'
     }
-    name = StringField(required=True)
-    class_id = StringField(required=True)
+    admin_id=StringField(unique=True, required=True)

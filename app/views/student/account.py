@@ -8,7 +8,7 @@ from app.decorators.json_validator import json_validate
 from app.decorators.auth_required import auth_required
 
 
-class Account(Resource):
+class StudentAccount(Resource):
     @json_validate({
         'type': 'object',
         'required': ['username', 'password', 'name', 'studentId', 'birth', 'profileImage'],
