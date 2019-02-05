@@ -1,4 +1,3 @@
-GET http://localhost:5000/api/student/auth/refresh
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDkzNDkwNTEsIm5iZiI6MTU0OTM0OTA1MSwianRpIjoiNzlmODkwNDItOWZjNS00ZWYxLTg2MWQtNmNhMjJhMDA2ZDNkIiwiZXhwIjoxNTUxOTQxMDUxLCJpZGVudGl0eSI6InRlc3QiLCJ0eXBlIjoicmVmcmVzaCJ9.lO68hlaYDzycZV_4LBgOa048PRZHROTsQfVPZSkQ_A0
+POST http://localhost:5000/api/attendance/111
 
 ###

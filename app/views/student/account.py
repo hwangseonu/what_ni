@@ -3,7 +3,7 @@ from flask_restful import Resource
 from flask_jwt_extended import create_access_token, create_refresh_token
 from mongoengine import Q
 
-from app.models.user import StudentModel
+from app.models.account import StudentModel
 from app.decorators.json_validator import json_validate
 from app.decorators.auth_required import auth_required
 

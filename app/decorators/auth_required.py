@@ -3,7 +3,7 @@ from functools import wraps
 from flask import abort, g
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from app.models.user import StudentModel, AdminModel
+from app.models.account import StudentModel, AdminModel
 
 
 def auth_required(account_type):

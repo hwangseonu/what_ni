@@ -14,6 +14,8 @@ def register_views(flask_app: Flask):
     from app.views.student.auth import Auth, Refresh
     api.add_resource(Auth, '/student/auth')
     api.add_resource(Refresh, '/student/auth/refresh')
+    from app.views.student.attendance import StudentAttendance
+    api.add_resource(StudentAttendance, '/attendance/<code>')
 
     flask_app.register_blueprint(api_blueprint)
     flask_app.handle_exception = handle_exception_func
