@@ -38,6 +38,15 @@ class Code(Resource):
             'code': str(code.identity)
         }, 201
 
+    @auth_required(AdminModel)
+    def get(self):
+        return [{
+            "code": str(i.identity),
+            "className": i.class_name,
+            "start": str(i.start),
+            "end": str(i.end)
+        } for i in CodeModel.objects(admin=g.user).all()], 200
+
 
 class AdminAttendance(Resource):
     @auth_required(AdminModel)
