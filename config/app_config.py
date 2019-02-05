@@ -2,4 +2,4 @@ import os
 
 
 class DevConfig:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'whatni_backend_api_secret')
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET', 'whatni_backend_api_secret')
