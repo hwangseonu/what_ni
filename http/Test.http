@@ -1,13 +1,4 @@
-POST http://localhost:5000/api/users
-Content-Type: application/json
-
-{
-  "username": "test",
-  "password": "test1234",
-  "name": "황선우",
-  "studentId": "10101",
-  "birth": "2019-02-05 12:45:39.517791",
-  "profileImage": "aaa"
-}
+GET http://localhost:5000/api/student/auth/refresh
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDkzNDkwNTEsIm5iZiI6MTU0OTM0OTA1MSwianRpIjoiNzlmODkwNDItOWZjNS00ZWYxLTg2MWQtNmNhMjJhMDA2ZDNkIiwiZXhwIjoxNTUxOTQxMDUxLCJpZGVudGl0eSI6InRlc3QiLCJ0eXBlIjoicmVmcmVzaCJ9.lO68hlaYDzycZV_4LBgOa048PRZHROTsQfVPZSkQ_A0
 
 ###

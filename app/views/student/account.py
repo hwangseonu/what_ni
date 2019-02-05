@@ -1,14 +1,14 @@
-from flask import request
+from flask import request, g
 from flask_restful import Resource
 from flask_jwt_extended import create_access_token, create_refresh_token
 from mongoengine import Q
 
 from app.models.user import StudentModel
-
 from app.decorators.json_validator import json_validate
+from app.decorators.auth_required import auth_required
 
 
-class User(Resource):
+class Account(Resource):
     @json_validate({
         'type': 'object',
         'required': ['username', 'password', 'name', 'studentId', 'birth', 'profileImage'],
@@ -35,3 +35,14 @@ class User(Resource):
                          profile_image=payload['profileImage']).save()
             return {'access': create_access_token(payload['username']),
                     'refresh': create_refresh_token(payload['username'])}, 201
+
+    @auth_required("student")
+    def get(self):
+        account = g.user
+        return {
+            "username": account.username,
+            "name": account.name,
+            "studentId": account.student_id,
+            "birth": account.birth,
+            "profileImage": account.profile_image
+        }, 200

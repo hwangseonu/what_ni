@@ -9,8 +9,11 @@ def register_views(flask_app: Flask):
     api_blueprint = Blueprint('api_v1', __name__, url_prefix='/api')
     api = Api(api_blueprint)
 
-    from app.views.users.user import User
-    api.add_resource(User, '/users')
+    from app.views.student.account import Account
+    api.add_resource(Account, '/student')
+    from app.views.student.auth import Auth, Refresh
+    api.add_resource(Auth, '/student/auth')
+    api.add_resource(Refresh, '/student/auth/refresh')
 
     flask_app.register_blueprint(api_blueprint)
     flask_app.handle_exception = handle_exception_func
