@@ -15,7 +15,7 @@ def register_views(flask_app: Flask):
     api.add_resource(StudentAuth, '/student/auth')
     api.add_resource(StudentRefresh, '/student/auth/refresh')
     from app.views.student.attendance import StudentAttendance
-    api.add_resource(StudentAttendance, '/attendance/<code>')
+    api.add_resource(StudentAttendance, '/student/attendance/<code>')
 
     from app.views.admin.account import AdminAccount
     api.add_resource(AdminAccount, '/admin')

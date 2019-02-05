@@ -5,6 +5,7 @@ from flask import request, g
 from flask_restful import Resource
 
 from app.models.code import Code as CodeModel
+from app.models.attendance import Attendance
 from app.models.account import AdminModel
 from app.decorators.json_validator import json_validate
 from app.decorators.auth_required import auth_required
@@ -44,4 +45,12 @@ class AdminAttendance(Resource):
         cls = CodeModel.objects(identity=UUID(code)).first()
         if cls.admin != g.user:
             return {}, 403
-        return {}, 200
+
+        return [{
+            "attendanceDate": str(i.attendance_date),
+            "student": {
+                "username": i.student.username,
+                "name": i.student.name,
+                "studentId": i.student.student_id,
+            }
+        } for i in Attendance.objects(code=UUID(code)).all()], 200

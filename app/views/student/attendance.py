@@ -30,16 +30,16 @@ class StudentAttendance(Resource):
                        "username": account.username,
                        "name": account.name,
                        "studentId": account.student_id,
-                       "birth": account.birth,
+                       "birth": str(account.birth),
                        "profileImage": account.profile_image
                    },
                    "class": {
                        "className": cls.class_name,
-                       "start": cls.start,
-                       "end": cls.end
+                       "start": str(cls.start),
+                       "end": str(cls.end)
                    },
-                   "code": attendance.code,
-                   "attendanceDate": attendance.attendance_date
+                   "code": str(attendance.code),
+                   "attendanceDate": str(attendance.attendance_date)
                }, 200
 
     @auth_required(StudentModel)
@@ -57,14 +57,14 @@ class StudentAttendance(Resource):
                        "username": account.username,
                        "name": account.name,
                        "studentId": account.student_id,
-                       "birth": account.birth,
+                       "birth": str(account.birth),
                        "profileImage": account.profile_image
                    },
                    "class": {
                        "className": cls.class_name,
-                       "start": cls.start,
-                       "end": cls.end
+                       "start": str(cls.start),
+                       "end": str(cls.end)
                    },
-                   "code": attendance.code,
-                   "attendance_date": attendance.attendance_date
+                   "code": str(attendance.code),
+                   "attendance_date": str(attendance.attendance_date)
                }, 200
