@@ -1,11 +1,11 @@
 from app import create_app
 from config.db_config import LocalMongoDBConfig
-from config.app_config import DevConfig
+from config.app_config import ProductionConfig
 
-from constants import local_run
+from constants import heroku_run as run
 
-app = create_app(LocalMongoDBConfig, DevConfig)
+app = create_app(LocalMongoDBConfig, ProductionConfig)
 
 
 if __name__ == '__main__':
-    app.run(**local_run.RUN_SETTING)
+    app.run(**run.RUN_SETTING)
