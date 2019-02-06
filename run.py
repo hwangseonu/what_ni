@@ -1,11 +1,11 @@
 from app import create_app
-from config.db_config import LocalMongoDBConfig
-from config.app_config import DevConfig
+from config.db_config import LocalMongoDBConfig as MongoDBConfig
+from config.app_config import DevConfig as Config
 
-from constants import local_run
+from constants import local_run as run
 
-app = create_app(LocalMongoDBConfig, DevConfig)
+app = create_app(MongoDBConfig, Config)
 
 
 if __name__ == '__main__':
-    app.run(**local_run.RUN_SETTING)
+    app.run(**run.RUN_SETTING)
