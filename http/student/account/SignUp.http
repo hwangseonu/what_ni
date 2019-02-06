@@ -1,4 +1,4 @@
-POST http://localhost:5000/api/student
+POST https://whatni-api.herokuapp.com/api/student
 Content-Type: application/json
 
 {

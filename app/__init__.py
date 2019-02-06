@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from mongoengine import connect
 from app.views import register_views
@@ -14,5 +15,6 @@ def create_app(*config_cls):
     connect(**flask_app.config['MONGODB_SETTINGS'])
 
     JWTManager().init_app(flask_app)
+    CORS(flask_app)
 
     return flask_app
